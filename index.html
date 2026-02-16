@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khatabook - Ledger Tracker</title>
+    <!-- CSS file ko link karo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main container -->
+    <div class="container">
+        
+        <!-- Header section -->
+        <div class="header">
+            <h1>📕 Khatabook</h1>
+            <p>Apna Hisaab-Kitaab Sambhalo</p>
+        </div>
+
+        <!-- Total stats section -->
+        <div class="stats-container">
+            <div class="stat-box income-box">
+                <h4>Kaul (Receivable)</h4>
+                <p id="total-income">₹0</p>
+            </div>
+            <div class="stat-box expense-box">
+                <h4>Udhar (Payable)</h4>
+                <p id="total-expense">₹0</p>
+            </div>
+        </div>
+
+        <!-- Tab buttons - Sabhi / Naya Khata -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('all-khatas')">📋 Sabhi Khate</button>
+            <button class="tab-btn" onclick="switchTab('add-khata')">➕ Naya Khata</button>
+        </div>
+
+        <!-- Tab 1: Sabhi Khate (All Ledgers) -->
+        <div id="all-khatas" class="tab-content active">
+            <div id="khatas-list" class="khatas-list">
+                <p class="empty-message">Abhi koi khata nahi hai. Naya Khata add karo!</p>
+            </div>
+        </div>
+
+        <!-- Tab 2: Naya Khata Add Karne Ke Liye -->
+        <div id="add-khata" class="tab-content">
+            <div class="form-container">
+                <h3>Naya Khata Kholiye</h3>
+                
+                <!-- Khata details form -->
+                <div class="form-group">
+                    <label>Khata Ka Naam (Person/Shop/Customer)</label>
+                    <input type="text" id="khata-name" placeholder="Jaise: Ram Babu, Sunil Dukaan, etc." />
+                </div>
+
+                <div class="form-group">
+                    <label>Kaun Hai? (Type)</label>
+                    <select id="khata-type">
+                        <option value="customer">Customer (Kaul Dena Padega)</option>
+                        <option value="vendor">Vendor (Udhar Dena Padega)</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" onclick="addNewKhata()">Khata Kholiye</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Detail modal jo ek khata ke sare transactions dikhaye -->
+    <div id="detail-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Khata Details</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Total balance info -->
+                <div class="balance-info">
+                    <p>Saath Hisaab: <span id="modal-balance" class="balance-amount">₹0</span></p>
+                </div>
+
+                <!-- Transactions list -->
+                <div id="modal-transactions" class="transactions-list">
+                    <!-- Yahan par transactions aa jayenge -->
+                </div>
+
+                <!-- Per-account totals (You Got / You Give) -->
+                <div class="form-container khata-totals" style="margin-bottom:12px;">
+                    <div style="display:flex; gap:10px;">
+                        <div style="flex:1; background:#eaf7ea; padding:10px; border-radius:8px; text-align:center;">
+                            <div style="font-weight:700; color:#10b981;">You Got<br/><small style="font-weight:600;color:#444;">(आपको मिला)</small></div>
+                            <div id="modal-you-got" style="font-size:18px; margin-top:6px;">₹0</div>
+                        </div>
+                        <div style="flex:1; background:#fdecea; padding:10px; border-radius:8px; text-align:center;">
+                            <div style="font-weight:700; color:#ef4444;">You Give<br/><small style="font-weight:600;color:#444;">(आपने दिया)</small></div>
+                            <div id="modal-you-gave" style="font-size:18px; margin-top:6px;">₹0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add / Edit transaction form (moved inside modal) -->
+                <div class="form-container" id="transaction-form" style="display:none;">
+                    <h3>Lena-Dena Likho</h3>
+
+                    <div class="form-group">
+                        <label>Kya Likha Hai?</label>
+                        <input type="text" id="trans-description" placeholder="Jaise: Saman, Paisa, etc." />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="number" id="trans-amount" placeholder="Kitna?" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="trans-type">
+                            <option value="debit" selected>You Got (आपको मिला)</option>
+                            <option value="credit">You Give (आपने दिया)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button class="btn btn-success" onclick="addTransaction()">Likho</button>
+                        <button class="btn btn-cancel" onclick="cancelTransaction()">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- Add transaction button -->
+                <button class="btn btn-small" onclick="openAddTransactionForm()">
+                    ➕ Lena-Dena Add Karo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript file ko link karo -->
+    <script src="script.js"></script>
+</body>
+</html>
